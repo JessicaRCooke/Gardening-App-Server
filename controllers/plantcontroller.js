@@ -30,12 +30,14 @@ router.post('/myplant', validateSession, (req, res) => {
     .catch(err => res.json(err))
 }),
 
-router.get('/myplant/', validateSession, (req, res) => {
-   
+router.get('/myplant', validateSession, (req, res) => {
+   var userid = req.user.id
     Plant.findAll({ 
-        
+        where: {
+            owner: userid
+        }
     })
-        .then(plant => res.status(200).json(plant))
+        .then(plant=> res.status(200).json(plant))
         .catch(err => res.status(500).json({
             error: err
         }))
